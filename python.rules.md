@@ -16,7 +16,7 @@ You are expected to use the following tools to ensure code quality and accuracy:
 **1.3. Development Workflow**
 Follow this general development process:
 1.  **Understand & Clarify**: Analyze the requirements. If anything is unclear, ask for clarification.
-2.  **Plan & Design**: Use `mas-sequential-thinking` for complex tasks. Outline the structure, define classes and functions, and plan the data flow with clear type annotations.
+2.  **Plan & Design**: Use `sequential-thinking` for complex tasks. Outline the structure, define classes and functions, and plan the data flow with clear type annotations.
 3.  **Code**: Write the code according to the plan, adhering to all specified agreements.
 4.  **Test**: Provide test cases as specified in the "Supplementary Conditions".
 5.  **Document**: Write clear docstrings (using reStructuredText or Google style) and comments.

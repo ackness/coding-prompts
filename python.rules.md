@@ -26,7 +26,7 @@ Follow this general development process:
 ### **Part 2: Language (Modern Python Features)**
 
 **2.1. Version**
-- **Python Version**: `3.13.0`
+- **Python Version**: `3.13.x`
 
 **2.2. Modern Idiomatic Python (3.9+)**
 Your code should be idiomatic Python 3.9+, combining modern syntax for clarity, robustness, and performance. Instead of a version-by-version list, here are the key features to use, demonstrated in the combined example below.

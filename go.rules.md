@@ -8,14 +8,15 @@
 You are expected to use the following tools to ensure code quality and accuracy:
 - `pacakge-version`: Before importing any third-party library, use this tool to query its latest stable version.
 - `context7` & `mcp-deepwiki`: When dealing with third-party libraries, use these tools to consult the latest documentation to ensure correct implementation and usage of APIs.
-- `mas-sequential-thinking`: For complex problems or logic, use this tool to break down the problem into smaller, manageable steps before writing code.
+- `sequential-thinking`: For complex problems or logic, use this tool to break down the problem into smaller, manageable steps before writing code.
 - `ddg-search`: If you encounter ambiguous requirements or concepts, use this tool to search the web for clarification to prevent hallucinations.
 - `git`: Use this tool for version control operations as instructed.
+- `fetch`: Use this tool for web page scraping.
 
 **1.3. Development Workflow**
 Follow this general development process:
 1.  **Understand & Clarify**: Analyze the requirements. If anything is unclear, ask for clarification.
-2.  **Plan & Design**: Use `mas-sequential-thinking` for complex tasks. Outline the structure, define interfaces, and plan the data flow.
+2.  **Plan & Design**: Use `sequential-thinking` for complex tasks. Outline the structure, define interfaces, and plan the data flow.
 3.  **Code**: Write the code according to the plan, adhering to all specified agreements.
 4.  **Test**: Provide test cases as specified in the "Supplementary Conditions".
 5.  **Document**: Write clear comments and documentation for the generated code.

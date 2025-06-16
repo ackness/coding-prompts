@@ -1,79 +1,106 @@
-### **Part 1: Foundation (Basic Agreement)**
+### **Part 1: Foundation**
 
-**1.1. Core Principles**
-- **Language Mode**: All code, documentation, and comments must be in pure English. All explanations, discussions, and clarifications during our interaction will be in Chinese.
-- **Goal**: The primary goal is to generate clean, efficient, maintainable, and well-documented code that adheres to the specifications provided and follows Go best practices.
+**1.1. Language Usage**
 
-**1.2. MCP Tools Usage**
-You are expected to use the following tools to ensure code quality and accuracy:
-- `pacakge-version`: Before importing any third-party library, use this tool to query its latest stable version.
-- `context7` & `mcp-deepwiki`: When dealing with third-party libraries, use these tools to consult the latest documentation to ensure correct implementation and usage of APIs.
-- `sequential-thinking`: For complex problems or logic, use this tool to break down the problem into smaller, manageable steps before writing code.
-- `ddg-search`: If you encounter ambiguous requirements or concepts, use this tool to search the web for clarification to prevent hallucinations.
-- `git`: Use this tool for version control operations as instructed.
-- `fetch`: Use this tool for web page scraping.
+* **Code, comments, documentation**: English
+* **Interaction (explanations, Q&A)**: Chinese
 
-**1.3. Development Workflow**
-Follow this general development process:
-1.  **Understand & Clarify**: Analyze the requirements. If anything is unclear, ask for clarification.
-2.  **Plan & Design**: Use `sequential-thinking` for complex tasks. Outline the structure, define interfaces, and plan the data flow.
-3.  **Code**: Write the code according to the plan, adhering to all specified agreements.
-4.  **Test**: Provide test cases as specified in the "Supplementary Conditions".
-5.  **Document**: Write clear comments and documentation for the generated code.
+**1.2. Objectives**
 
----
+* Produce clean, maintainable, high‑performance Go code
+* Follow modern Go best practices (targeting Go 1.20+)
 
-### **Part 2: Language (Modern Go Features)**
+**1.3. Tooling Rules**
 
-**2.1. Version**
-- **Go Version**: `1.24.4`
+* `package-version`: fetch latest stable version for dependencies
+* `context7` / `mcp-deepwiki`: consult docs for correct API usage
+* `sequential-thinking`: decompose complex tasks into logical steps
+* `ddg-search`: resolve ambiguous requirements
+* `git`: perform version control as directed
+* `fetch`: scrape web pages when needed
 
-**2.2. Modern Idiomatic Go (1.21+)**
-Your code should be written in an idiomatic, modern Go style, combining the key features introduced since version 1.21 for improved clarity, safety, and power.
+**1.4. Workflow**
+Follow these steps in order:
 
-**Key Features to Utilize:**
-
-*   **Enhanced `net/http.ServeMux` (High Priority)**:
-    *   For all HTTP services, use the modern `http.ServeMux`. Define routes with HTTP methods and path wildcards (e.g., `"GET /items/{id}"`) for more robust and RESTful routing directly within the standard library.
-*   **Safer and Simpler Loops**:
-    *   The `for` loop variable capture issue is resolved by default (Go 1.22+). You can safely use goroutines inside loops without needing to create a shadow variable.
-    *   When iterating a fixed number of times, prefer the concise `for i := range N` syntax.
-*   **New Built-in Functions**:
-    *   Use the built-in `min()` and `max()` for comparing ordered types and `clear()` for resetting slices and maps without reallocating memory.
-*   **Function Iterators (`range` over func)**:
-    *   For custom iteration logic, such as streaming data or generating sequences, implement a function iterator that can be used directly in a `for-range` loop.
-*   **Performance Awareness**:
-    *   Be aware that Go 1.24+ benefits from significant runtime performance improvements (e.g., faster map implementation) that require no code changes.
+1. Understand and clarify requirements
+2. Design structure, interfaces, and data flows
+3. Implement code
+4. Write unit tests and verify
+5. Document clearly
 
 ---
 
-### **Part 3: Framework (e.g., Go-zero)**
+### **Part 2: Language Specification**
 
-- **Primary Framework**: We will use `go-zero`.
-- **Version**: Use the `pacakge-version` tool to find and use the latest stable version of `github.com/zeromicro/go-zero`.
-- **Style**: Follow standard `go-zero` project structure and best practices. Use `goctl` for boilerplate generation where appropriate.
+* **Default Go version**: 1.24.4
+  Provide the model with key Go 1.20+ features as prior knowledge:
+* **Generics**: type parameters on functions and types; generic type aliases
+* **Slice→Array Conversion**: direct conversion (`[N]T(s)`) for copy semantics
+* **`unsafe` Enhancements**: `SliceData`, `String`, `StringData` for low-level access
+* **Built-ins**: `min()`, `max()`, `clear()` for common operations
+* **Loop Improvements**: per-iteration variable redeclaration (closure capture fixed); `for i := range N` for integer iteration
+* **Function Iterators**: support for `for range func` loops
+* **New stdlib Packages**: `log/slog`, `slices`, `maps`, `cmp`
+
+**Performance & Concurrency**:
+
+* Prioritize low-latency, high-throughput patterns; minimize allocations and GC pressure
+* Utilize goroutines and channels appropriately; manage lifecycles with `context.Context` and `sync.WaitGroup`
+* Apply sync primitives (`sync.Mutex`, `sync.RWMutex`, `atomic`) to prevent race conditions
+* Leverage resource pools (`sync.Pool`) and efficient data structures for high load
+* Proactively identify potential deadlocks, memory leaks, and propose mitigation (timeouts, cancellations)
 
 ---
 
-### **Part 4: Task (Specific Requirements)**
+### **Part 3: Architecture & Design Patterns**
 
-- **[Please provide your detailed requirements here. For example:]**
-- **Example Task**:
-    - "I need a simple API service using Go-zero."
-    - "It should have one endpoint: `POST /api/user/create`."
-    - "The request body should have `name` (string) and `email` (string)."
-    - "The handler should validate that `name` and `email` are not empty."
-    - "If valid, return a `user_id` (a generated UUID) and a success message."
-    - "If invalid, return an appropriate error."
+* **Modular Design**: Organize code into clear modules/packages with single responsibility
+* **Layered Architecture**: Separate transport (HTTP/RPC) layer, business logic layer, and data access layer
+* **Interface-Driven Development**: Define interfaces for external dependencies and inject implementations for flexibility and testability
+* **Error Handling Strategy**: Standardize error types and formats; centralize error translation and logging
+* **Configuration Management**: Load configuration from environment, files, or remote sources; validate on startup
+* **Observability**: Include structured logging, metrics, and tracing hooks at key boundaries
 
 ---
 
-### **Part 5: Constraints (Supplementary Conditions)**
+### **Part 4: Implementation Guidelines**
 
-- **Testing**:
-    - All logic handlers must have corresponding unit tests.
-    - Use the standard `testing` package.
-    - For assertions, use the `testify/assert` library (`github.com/stretchr/testify`). Please use `pacakge-version` to get its latest version.
-- **Operating System**: The target environment is `Linux/amd64`. Ensure code is compatible.
-- **Error Handling**: Use `go-zero`'s error handling mechanisms (`xerror`). All errors returned to the client should be in a structured format.
-- **Dependencies**: Minimize external dependencies. For any new dependency, justify its necessity.
+* **HTTP Clients**: Use a robust HTTP client library (e.g., Resty or `net/http`) with timeout, retry, and backoff policies
+* **Data Mapping**: Translate external API payloads into internal domain types; use converters or adapters
+* **Concurrency Control**: Launch goroutines for independent calls; coordinate with `context.Context` and cancellation
+* **Resource Management**: Manage connection pools, rate limits, and circuit breakers to ensure resilience
+* **Testing Strategy**: Mock external services via interfaces; write unit tests for logic and integration tests for end-to-end flows
+* **Documentation**: Provide README examples showing usage patterns and configuration defaults
+
+---
+
+### **Part 4: Implementation Guidelines**
+
+* **HTTP Clients**: Use Resty v3 (`resty.dev/v3`) with timeout, retry, backoff, middleware, and automatic unmarshalling
+* **Data Mapping**: Translate API payloads into domain types via converters/adapters
+* **Concurrency Control**: Use goroutines with `context.Context` and cancellation
+* **Resource Management**: Leverage connection pools, rate limits, circuit breakers
+* **Testing Strategy**: Mock services using interfaces; unit and integration tests
+* **Documentation**: README examples with usage patterns and defaults
+
+---
+
+### **Part 5: Frameworks & Libraries**
+
+* **go-zero** (latest version via `package-version`): a cloud-native microservices framework offering code generation (`goctl`), built-in service discovery, load balancing, circuit breaking, validation, caching, and observability features
+* **Resty v3** (`resty.dev/v3`): a simple, chainable HTTP and REST client with JSON/XML auto-unmarshalling, retries, middleware hooks, debugging, and SSE support
+
+---
+
+### **Part 6: Task Requirements**
+
+* Build HTTP clients with Resty v3 to call multiple APIs
+* Map responses into custom types within go-zero
+
+---
+
+### **Part 7: Additional Constraints**
+
+* **Testing**: each handler must have unit tests using Go’s `testing` + `testify/assert` (latest via `package-version`)
+* **Environment**: default Windows (amd64); backup macOS (arm64/amd64) and Linux (amd64)
+* **Dependencies**: minimize; justify additions succinctly
